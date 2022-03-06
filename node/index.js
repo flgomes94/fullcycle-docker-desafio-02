@@ -12,12 +12,19 @@ const config = {
 const mysql = require('mysql');
 const connection = mysql.createConnection(config);
 
-const sql = `INSERT INTO people(name) values ('Wesley')`
+const sql = `INSERT INTO people(name) values ('Wesley');`
 connection.query(sql);
+const sql2 = `SELECT * from people;`
+let peoples = {};
+const result = connection.query(sql2, function (error, results, fields) {
+    if (error) throw error;
+    peoples = results;
+    //console.log('The solution is: ', results[0].solution);
+  });
 connection.end();
 
 app.get('/', (req,res)=> {
-    res.send('<h1>Full Cycles</h1>')
+    res.send(`<h1>Full Cycles</h1></ br><p>${JSON.stringify(peoples)}</p>`)
 })
 
 app.listen(port, ()=> {
